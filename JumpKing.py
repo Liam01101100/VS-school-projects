@@ -2,7 +2,9 @@ from cmu_graphics import *
 app.stepPerSecond = 90
 player = Rect(200,200,30,50,fill='crimson',border='black')
 playercharge = Rect(200,200,30,25,fill='crimson',border='black')
-ground = Group(Line(50,370,350,370,opacity=60),Rect(0,370,400,8000,fill=None),Rect(325, 175,40,5)) 
+ground = Group(Line(50,370,350,370,opacity=60),Rect(0,370,400,8000,fill=None),Rect(325, 175,40,5),Rect(100,300,40,7))
+walls1 = Group(Line(50,50,50,300)) 
+walls2 = Group(Line(350,200,350,300))
 player.visible = True
 player.centerY = 344
 playercharge.visible = False
@@ -12,9 +14,9 @@ app.jump = 0
 app.jumpmax = 15
 app.air_force = 0
 app.charge = False
-app.score = 0
 app.sidespeed = 3
 app.walk = 3
+player.dx = 0
 # def levelLoader(level):
 #    with open(level) as file:
 #        for line in file:
@@ -41,17 +43,15 @@ def onKeyHold(keys):
         app.charge = True
     else:
         app.charge = False
-
-def onKeyPress(keys):
     if player.hitsShape(ground) == True and app.charge == True:
-        print('super Jump', app.score)
-        app.score += 1
-        if(keys == 'd'):
+        if('d' in keys):
             app.air_force = app.sidespeed
-        if(keys == 'a'):
+        if('a' in keys):
             app.air_force = -app.sidespeed   
-    if keys == 'space':
-        app.air_force = 0   
+    
+def onKeyPress(keys):
+       if keys == 'space':
+        app.air_force = 0
 
 def onKeyRelease(keys):
     if player.hitsShape(ground) == True:
@@ -83,8 +83,15 @@ def onStep():
         if player.hitsShape(platform) and player.bottom > platform.top + (player.dy+9):
             player.top = platform.bottom
             player.dy = 2
-
-
+    for side in walls1.children:
+        if player.hitsShape(side) and player.left < side.right + (player.dx):
+            player.left = side.right
+            app.air_force = -app.air_force
+    for side in walls2.children:
+        if player.hitsShape(side) and player.right > side.left + (player.dx):
+            player.right = side.left
+            app.air_force = -app.air_force
+    
 
 
 cmu_graphics.run()
