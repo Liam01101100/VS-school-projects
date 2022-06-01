@@ -2,7 +2,7 @@ from cmu_graphics import *
 app.stepPerSecond = 90
 player = Rect(200,200,30,50,fill='crimson',border='black')
 playercharge = Rect(200,200,30,25,fill='crimson',border='black')
-ground = Group(Line(50,370,350,370,opacity=60),Rect(0,370,400,8000,fill=None),Rect(325, 175,40,5),Rect(100,300,40,7))
+ground = Group(Line(50,370,350,370,opacity=60),Rect(0,370,400,8000,fill=None),Rect(325, 175,40,5),Rect(100,300,40,7),Rect(230,110,40,10))
 walls1 = Group(Line(50,50,50,300)) 
 walls2 = Group(Line(350,200,350,300))
 player.visible = True
